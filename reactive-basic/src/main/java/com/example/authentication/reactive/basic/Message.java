@@ -1,20 +1,15 @@
 package com.example.authentication.reactive.basic;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * @author Gary Cheng
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Message {
-    public Message(String message) {
-        this.message = message;
-    }
-
     private String message;
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 }
