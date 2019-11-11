@@ -1,0 +1,8 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    org.springframework: WARN
+    io.netty: WARN
+    com.example: DEBUG
