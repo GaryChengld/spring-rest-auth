@@ -8,6 +8,7 @@
   <packaging>pom</packaging>
 
   <modules>
+    <module>basic</module>
     <module>reactive-basic</module>
   </modules>
 </project>

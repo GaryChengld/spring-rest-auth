@@ -17,7 +17,6 @@ import static org.springframework.security.config.Customizer.withDefaults;
  */
 @Configuration
 @EnableWebFluxSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfigure {
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
