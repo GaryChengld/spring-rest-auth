@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono;
 @RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ApiController {
 
-    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    @RequestMapping(value = "/welcome", method = RequestMethod.GET)
     public Mono<Message> home() {
         return Mono.just(new Message("Public Api"));
     }
