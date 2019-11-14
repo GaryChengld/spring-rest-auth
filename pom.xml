@@ -9,6 +9,7 @@
 
   <modules>
     <module>basic</module>
+    <module>basic-database</module>
     <module>reactive-basic</module>
   </modules>
 </project>
