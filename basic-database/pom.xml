@@ -9,10 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example.authentication</groupId>
-	<artifactId>spring-authentication-basic-database</artifactId>
+	<artifactId>spring-authentication-basic-jdbc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>spring-authentication-basic-database</name>
-	<description>Demo project for Spring Boot</description>
+	<name>spring-authentication-basic-jdbc</name>
 
 	<properties>
 		<java.version>1.8</java.version>

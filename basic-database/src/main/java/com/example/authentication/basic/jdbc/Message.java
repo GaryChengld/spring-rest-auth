@@ -1,4 +1,4 @@
-package com.example.authentication.basic.database;
+package com.example.authentication.basic.jdbc;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

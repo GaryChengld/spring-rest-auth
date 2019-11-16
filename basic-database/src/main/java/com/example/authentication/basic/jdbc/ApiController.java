@@ -1,4 +1,4 @@
-package com.example.authentication.basic.database;
+package com.example.authentication.basic.jdbc;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
