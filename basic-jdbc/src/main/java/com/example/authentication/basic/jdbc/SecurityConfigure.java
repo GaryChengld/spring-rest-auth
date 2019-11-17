@@ -24,7 +24,7 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
 
     private static final String usersQuery = "select username, password, active from user where username=?";
     private static final String rolesQuery = "select u.username, r.role from user u inner join user_roles ur " +
-            "on(u.user_id=ur.user_id) inner join role r on(ur.role_id=r.role_id) where u.username=?";
+            "on(u.id=ur.user_id) inner join role r on(ur.role_id=r.id) where u.username=?";
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -32,7 +32,9 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/welcome").permitAll()
                 .antMatchers("/api/user").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/api/admin").hasRole("ADMIN")
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
+                .and().csrf().ignoringAntMatchers("/h2/**")
+                .and().headers().frameOptions().sameOrigin()
                 .and()
                 .httpBasic();
     }

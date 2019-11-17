@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Entity
 @Data
-@ToString(callSuper = false, exclude = "roles")
+@ToString(exclude = "roles")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
