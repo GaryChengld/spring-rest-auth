@@ -19,8 +19,6 @@ import javax.sql.DataSource;
 public class SecurityConfigure extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
 
     private static final String usersQuery = "select username, password, active from user where username=?";
     private static final String rolesQuery = "select u.username, r.role from user u inner join user_roles ur " +
@@ -46,7 +44,7 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
                 .usersByUsernameQuery(usersQuery)
                 .authoritiesByUsernameQuery(rolesQuery)
                 .dataSource(dataSource)
-                .passwordEncoder(passwordEncoder);
+                .passwordEncoder(passwordEncoder());
     }
 
     @Bean
