@@ -9,7 +9,8 @@
 
   <modules>
     <module>basic</module>
-    <module>basic-database</module>
+    <module>basic-jdbc</module>
+    <module>basic-userservice</module>
     <module>reactive-basic</module>
   </modules>
 </project>
