@@ -1,1 +1,1 @@
-# Example Spring Boot Restful Authentication
+# Spring Boot Restful Authentication Examples
