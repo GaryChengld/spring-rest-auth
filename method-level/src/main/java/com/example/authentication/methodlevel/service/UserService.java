@@ -1,6 +1,6 @@
 package com.example.authentication.methodlevel.service;
 
-import com.example.authentication.methodlevel.domain.UserPrincipal;
+import com.example.authentication.methodlevel.security.UserPrincipal;
 import com.example.authentication.methodlevel.domain.User;
 import com.example.authentication.methodlevel.repostory.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

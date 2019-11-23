@@ -1,6 +1,6 @@
-package com.example.authentication.methodlevel.service;
+package com.example.authentication.methodlevel.security;
 
-import com.example.authentication.methodlevel.domain.UserPrincipal;
+import com.example.authentication.methodlevel.security.UserPrincipal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class CurrentUserService {
+public class UserSecurityService {
     private static final String ROLE_ADMIN = "ROLE_ADMIN";
 
     public boolean canAccessUser(UserPrincipal currentUser, String username) {

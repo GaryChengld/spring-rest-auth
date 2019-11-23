@@ -34,7 +34,7 @@ public class ApiController {
     }
 
     @RequestMapping(value = "/user/{username}", method = RequestMethod.GET)
-    @PreAuthorize("@currentUserService.canAccessUser(principal, #username)")
+    @PreAuthorize("@userSecurityService.canAccessUser(principal, #username)")
     public Response username(@PathVariable("username") String username) {
         return new Response(username);
     }

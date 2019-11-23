@@ -1,4 +1,4 @@
-package com.example.authentication.methodlevel;
+package com.example.authentication.methodlevel.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

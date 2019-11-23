@@ -1,5 +1,7 @@
-package com.example.authentication.methodlevel.domain;
+package com.example.authentication.methodlevel.security;
 
+import com.example.authentication.methodlevel.domain.Role;
+import com.example.authentication.methodlevel.domain.User;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,7 +13,7 @@ import java.util.stream.Collectors;
 /**
  * @author Gary Cheng
  */
-public class UserPrincipal implements UserDetails, CredentialsContainer {
+public class UserPrincipal implements UserDetails {
     private final User user;
 
     public UserPrincipal(User user) {
@@ -57,8 +59,4 @@ public class UserPrincipal implements UserDetails, CredentialsContainer {
         return new SimpleGrantedAuthority(role.getRoleName());
     }
 
-    @Override
-    public void eraseCredentials() {
-        user.setPassword(null);
-    }
 }
