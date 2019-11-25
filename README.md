@@ -1,1 +1,1 @@
-# Spring Boot Restful Authentication Examples
+# Spring Boot Security on Restful Examples
