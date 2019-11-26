@@ -1,8 +1,10 @@
 package com.example.authentication.jwt;
 
+import com.example.authentication.jwt.domain.User;
 import com.example.authentication.jwt.dto.JwtToken;
 import com.example.authentication.jwt.dto.Response;
 import com.example.authentication.jwt.dto.Signin;
+import com.example.authentication.jwt.repostory.UserRepository;
 import com.example.authentication.jwt.security.jwt.JwtFilter;
 import com.example.authentication.jwt.security.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,15 +31,15 @@ public class ApiController {
     private AuthenticationManager authenticationManager;
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    private UserRepository userRepository;
 
-    @GetMapping(value = "/welcome")
-    @PreAuthorize("permitAll()")
+    @GetMapping("/welcome")
     public Response home() {
         return new Response("Public Api");
     }
 
     @PostMapping("/signin")
-    @PreAuthorize("permitAll()")
     public ResponseEntity<JwtToken> authorize(@Valid @RequestBody Signin signin) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signin.getUsername(), signin.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -47,21 +49,22 @@ public class ApiController {
         return new ResponseEntity<>(new JwtToken(jwt), httpHeaders, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/admin", method = RequestMethod.GET)
+    @GetMapping("/admin")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     public Response admin() {
         return new Response("Admin Api");
     }
 
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    @GetMapping("/user")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public Response user() {
         return new Response("User Api");
     }
 
-    @RequestMapping(value = "/user/{username}", method = RequestMethod.GET)
+    @GetMapping("/user/{username}")
     @PreAuthorize("@userSecurityService.canAccessUser(principal, #username)")
-    public Response username(@PathVariable("username") String username) {
-        return new Response(username);
+    public ResponseEntity<User> findUser(@PathVariable("username") String username) {
+        User user = this.userRepository.findByUsername(username);
+        return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
     }
 }

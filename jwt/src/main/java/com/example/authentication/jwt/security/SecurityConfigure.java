@@ -4,6 +4,7 @@ import com.example.authentication.jwt.security.jwt.JwtAccessDeniedHandler;
 import com.example.authentication.jwt.security.jwt.JwtAuthenticationEntryPoint;
 import com.example.authentication.jwt.security.jwt.JwtFilterConfigurer;
 import com.example.authentication.jwt.security.jwt.JwtTokenProvider;
+import com.example.authentication.jwt.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,13 +28,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfigure extends WebSecurityConfigurerAdapter {
-    private final UserDetailsService userService;
+    private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Autowired
-    public SecurityConfigure(UserDetailsService userService,
+    public SecurityConfigure(UserService userService,
                              JwtTokenProvider jwtTokenProvider,
                              JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
                              JwtAccessDeniedHandler jwtAccessDeniedHandler) {
