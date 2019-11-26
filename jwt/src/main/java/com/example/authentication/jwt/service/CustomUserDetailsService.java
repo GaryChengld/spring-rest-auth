@@ -3,6 +3,7 @@ package com.example.authentication.jwt.service;
 import com.example.authentication.jwt.domain.User;
 import com.example.authentication.jwt.repostory.UserRepository;
 import com.example.authentication.jwt.security.UserPrincipal;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,11 +14,13 @@ import org.springframework.stereotype.Service;
  * @author Gary Cheng
  */
 @Service
-public class UserService implements UserDetailsService {
+@Slf4j
+public class CustomUserDetailsService implements UserDetailsService {
+    private static final String ROLE_ADMIN = "ROLE_ADMIN";
     private UserRepository userRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public CustomUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -28,5 +31,11 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
         return new UserPrincipal(user);
+    }
+
+    public boolean canAccessUser(org.springframework.security.core.userdetails.User currentUser, String username) {
+        log.debug("Checking if {} has access to {}", currentUser.getUsername(), username);
+        return currentUser != null
+                && (currentUser.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals(ROLE_ADMIN) || currentUser.getUsername().equals(username)));
     }
 }

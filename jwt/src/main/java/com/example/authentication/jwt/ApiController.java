@@ -2,11 +2,12 @@ package com.example.authentication.jwt;
 
 import com.example.authentication.jwt.domain.User;
 import com.example.authentication.jwt.dto.JwtToken;
-import com.example.authentication.jwt.dto.Response;
+import com.example.authentication.jwt.dto.ApiResponse;
 import com.example.authentication.jwt.dto.Signin;
 import com.example.authentication.jwt.repostory.UserRepository;
 import com.example.authentication.jwt.security.jwt.JwtFilter;
 import com.example.authentication.jwt.security.jwt.JwtTokenProvider;
+import com.example.authentication.jwt.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -35,8 +37,8 @@ public class ApiController {
     private UserRepository userRepository;
 
     @GetMapping("/welcome")
-    public Response home() {
-        return new Response("Public Api");
+    public ApiResponse home() {
+        return new ApiResponse("Public Api");
     }
 
     @PostMapping("/signin")
@@ -51,18 +53,18 @@ public class ApiController {
 
     @GetMapping("/admin")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
-    public Response admin() {
-        return new Response("Admin Api");
+    public ApiResponse admin() {
+        return new ApiResponse("Admin Api");
     }
 
     @GetMapping("/user")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
-    public Response user() {
-        return new Response("User Api");
+    public ApiResponse user() {
+        return new ApiResponse("User Api");
     }
 
     @GetMapping("/user/{username}")
-    @PreAuthorize("@userSecurityService.canAccessUser(principal, #username)")
+    @PreAuthorize("@customUserDetailsService.canAccessUser(principal, #username)")
     public ResponseEntity<User> findUser(@PathVariable("username") String username) {
         User user = this.userRepository.findByUsername(username);
         return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
