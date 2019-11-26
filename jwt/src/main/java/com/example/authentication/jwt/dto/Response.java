@@ -1,4 +1,4 @@
-package com.example.authentication.jwt.domain;
+package com.example.authentication.jwt.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
