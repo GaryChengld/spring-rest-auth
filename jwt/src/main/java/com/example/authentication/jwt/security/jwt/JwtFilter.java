@@ -1,8 +1,14 @@
 package com.example.authentication.jwt.security.jwt;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -19,10 +25,12 @@ import java.io.IOException;
 public class JwtFilter extends OncePerRequestFilter {
     public static final String AUTHORIZATION_HEADER = "Authorization";
 
+    private final AuthenticationEntryPoint authenticationEntryPoint;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public JwtFilter(JwtTokenProvider jwtTokenProvider) {
+    public JwtFilter(JwtTokenProvider jwtTokenProvider, AuthenticationEntryPoint authenticationEntryPoint) {
         this.jwtTokenProvider = jwtTokenProvider;
+        this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
 
@@ -31,13 +39,20 @@ public class JwtFilter extends OncePerRequestFilter {
         log.debug("Invoked JwtFilter");
         String jwt = resolveToken(httpServletRequest);
         String requestURI = httpServletRequest.getRequestURI();
-        if (StringUtils.hasText(jwt) && this.jwtTokenProvider.validateToken(jwt)) {
-            Authentication authentication = this.jwtTokenProvider.getAuthentication(jwt);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            log.debug("set Authentication to security context for '{}', uri: {}", authentication.getName(), requestURI);
+        if (StringUtils.hasText(jwt)) {
+            try {
+                this.jwtTokenProvider.validateToken(jwt);
+                Authentication authentication = this.jwtTokenProvider.getAuthentication(jwt);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                log.debug("set Authentication to security context for '{}', uri: {}", authentication.getName(), requestURI);
+            } catch (JwtException e) {
+                log.debug("invalid JWT token, error:{} uri: {}", e.getMessage(), requestURI);
+                SecurityContextHolder.clearContext();
+                this.authenticationEntryPoint.commence(httpServletRequest, httpServletResponse, this.toAuthenticationException(e));
+                return;
+            }
         } else {
             SecurityContextHolder.clearContext();
-            log.debug("no valid JWT token found, uri: {}", requestURI);
         }
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
@@ -48,5 +63,17 @@ public class JwtFilter extends OncePerRequestFilter {
             return bearerToken.substring(7);
         }
         return null;
+    }
+
+    private AuthenticationException toAuthenticationException(JwtException jwtException) {
+        String message;
+        if (jwtException instanceof ExpiredJwtException) {
+            message = "Expired JWT token";
+        } else if (jwtException instanceof UnsupportedJwtException) {
+            message = "Unsupported JWT token";
+        } else {
+            message = "Invalid JWT token";
+        }
+        return new BadCredentialsException(message);
     }
 }

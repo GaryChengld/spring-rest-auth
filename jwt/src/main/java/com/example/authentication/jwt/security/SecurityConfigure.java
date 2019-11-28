@@ -44,8 +44,7 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         web.ignoring()
                 .antMatchers(HttpMethod.OPTIONS, "/**")
-                .antMatchers("/h2/**"
-                );
+                .antMatchers("/h2/**", "/favicon.ico", "/error");
     }
 
     @Override
@@ -63,7 +62,7 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and().headers().frameOptions().sameOrigin()
                 .and()
-                .apply(this.securityConfigurerAdapter());
+                .apply(this.jwtSecurityConfigurerAdapter());
     }
 
     @Override
@@ -80,11 +79,10 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return passwordEncoder;
-    }
+        return new BCryptPasswordEncoder();
+  }
 
-    private JwtFilterConfigurer securityConfigurerAdapter() {
-        return new JwtFilterConfigurer(jwtTokenProvider);
+    private JwtFilterConfigurer jwtSecurityConfigurerAdapter() {
+        return new JwtFilterConfigurer(jwtTokenProvider, restAuthenticationEntryPoint);
     }
 }
