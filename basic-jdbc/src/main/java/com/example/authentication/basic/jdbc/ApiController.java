@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApiController {
 
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
-    public Response home() {
-        return new Response("Public Api");
+    public ApiResponse home() {
+        return new ApiResponse("Public Api");
     }
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public Response admin() {
-        return new Response("Admin Api");
+    public ApiResponse admin() {
+        return new ApiResponse("Admin Api");
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public Response user() {
-        return new Response("User Api");
+    public ApiResponse user() {
+        return new ApiResponse("User Api");
     }
 }

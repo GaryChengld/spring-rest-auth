@@ -20,7 +20,7 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
-    private static final String usersQuery = "select username, password, active from user where username=?";
+    private static final String usersQuery = "select username, password, activated from user where username=?";
     private static final String rolesQuery = "select u.username, r.role from user u inner join user_roles ur " +
             "on(u.id=ur.user_id) inner join role r on(ur.role_id=r.id) where u.username=?";
 
