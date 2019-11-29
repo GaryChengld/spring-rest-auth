@@ -1,6 +1,5 @@
 package com.example.authentication.methodlevel;
 
-import com.example.authentication.methodlevel.domain.Response;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,25 +16,25 @@ public class ApiController {
 
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
     @PreAuthorize("permitAll()")
-    public Response home() {
-        return new Response("Public Api");
+    public ApiResponse home() {
+        return new ApiResponse("Public Api");
     }
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
-    public Response admin() {
-        return new Response("Admin Api");
+    public ApiResponse admin() {
+        return new ApiResponse("Admin Api");
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
-    public Response user() {
-        return new Response("User Api");
+    public ApiResponse user() {
+        return new ApiResponse("User Api");
     }
 
     @RequestMapping(value = "/user/{username}", method = RequestMethod.GET)
     @PreAuthorize("@userSecurityService.canAccessUser(principal, #username)")
-    public Response username(@PathVariable("username") String username) {
-        return new Response(username);
+    public ApiResponse username(@PathVariable("username") String username) {
+        return new ApiResponse(username);
     }
 }

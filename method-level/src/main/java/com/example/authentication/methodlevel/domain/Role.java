@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Data
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "ROLE", nullable = false, length = 100)
     private String roleName;
