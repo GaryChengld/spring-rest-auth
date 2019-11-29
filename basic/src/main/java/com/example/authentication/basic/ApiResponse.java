@@ -10,6 +10,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Message {
+public class ApiResponse {
+    private Integer status;
     private String message;
+
+    public ApiResponse(String message) {
+        this.status = 200;
+        this.message = message;
+    }
 }

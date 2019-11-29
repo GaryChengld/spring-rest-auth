@@ -1,4 +1,4 @@
-package com.example.authentication.reactive.basic;
+package com.example.authentication.webflux.basic;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

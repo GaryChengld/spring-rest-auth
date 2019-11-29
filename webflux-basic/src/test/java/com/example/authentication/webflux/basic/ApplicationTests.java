@@ -1,4 +1,4 @@
-package com.example.authentication.reactive.basic;
+package com.example.authentication.webflux.basic;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

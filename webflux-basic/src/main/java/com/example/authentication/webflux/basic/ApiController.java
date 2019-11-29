@@ -1,4 +1,4 @@
-package com.example.authentication.reactive.basic;
+package com.example.authentication.webflux.basic;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;

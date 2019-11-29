@@ -9,11 +9,10 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>com.example.authentication</groupId>
-  <artifactId>spring-authentication-reactive-basic</artifactId>
+  <artifactId>spring-authentication-webflux-basic</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>spring-authentication-reactive-basic</name>
-  <description>Demo project for Spring Boot</description>
-
+  <name>spring-authentication-webflux-basic</name>
+  
   <properties>
     <java.version>1.8</java.version>
   </properties>
