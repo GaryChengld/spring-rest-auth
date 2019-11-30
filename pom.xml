@@ -10,8 +10,11 @@
   <modules>
     <module>basic</module>
     <module>basic-jdbc</module>
-    <module>basic-userservice</module>
+    <module>basic-dao</module>
     <module>method-level</module>
-    <module>reactive-basic</module>
+    <module>jwt</module>
+    <module>webflux-basic</module>
+    <module>webflux-dao</module>
+    <module>webflux-method-level</module>
   </modules>
 </project>

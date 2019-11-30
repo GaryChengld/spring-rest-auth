@@ -1,8 +1,9 @@
-package com.example.authentication.webflux.dao.security;
+package com.example.authentication.webflux.methodlevel.security;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,6 +15,7 @@ import org.springframework.security.web.server.context.WebSessionServerSecurityC
  */
 @Configuration
 @EnableWebFluxSecurity
+@EnableReactiveMethodSecurity
 @Slf4j
 public class SecurityConfigure {
     @Bean
@@ -23,8 +25,6 @@ public class SecurityConfigure {
         log.debug("config SecurityWebFilterChain");
         return http.authorizeExchange()
                 .pathMatchers("/api/welcome").permitAll()
-                .pathMatchers("/api/user").hasAnyRole("ADMIN", "USER")
-                .pathMatchers("/api/admin").hasRole("ADMIN")
                 .anyExchange().authenticated()
                 .and().logout().disable()
                 .securityContextRepository(new WebSessionServerSecurityContextRepository())

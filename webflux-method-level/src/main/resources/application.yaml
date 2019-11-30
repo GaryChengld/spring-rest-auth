@@ -1,0 +1,16 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+  jpa.database-platform: org.hibernate.dialect.H2Dialect
+
+logging:
+  level:
+    org.springframework: WARN
+    org.hibernate: WARN
+    io.netty: WARN
+    com.example: DEBUG
