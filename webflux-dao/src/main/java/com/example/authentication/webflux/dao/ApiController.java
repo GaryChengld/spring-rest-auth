@@ -1,5 +1,6 @@
 package com.example.authentication.webflux.dao;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,6 +12,7 @@ import reactor.core.publisher.Mono;
  */
 @RestController
 @RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
+@Slf4j
 public class ApiController {
 
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
@@ -20,6 +22,7 @@ public class ApiController {
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public Mono<ApiResponse> admin() {
+        log.debug("Received /admin request");
         return Mono.just(new ApiResponse("Admin Api"));
     }
 

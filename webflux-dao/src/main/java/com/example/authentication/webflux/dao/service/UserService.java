@@ -1,6 +1,6 @@
 package com.example.authentication.webflux.dao.service;
 
-import com.example.authentication.webflux.dao.UserPrincipal;
+import com.example.authentication.webflux.dao.security.UserPrincipal;
 import com.example.authentication.webflux.dao.domain.User;
 import com.example.authentication.webflux.dao.repostory.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class UserService implements ReactiveUserDetailsService {
         return Mono.create(emmit -> {
             User user = userRepository.findByUsername(username);
             if (null == user) {
-                emmit.error(new UsernameNotFoundException(username));
+                emmit.error(new UsernameNotFoundException("User Not Found"));
             } else {
                 emmit.success(new UserPrincipal(user));
             }

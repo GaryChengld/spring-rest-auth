@@ -1,4 +1,4 @@
-package com.example.authentication.webflux.dao;
+package com.example.authentication.webflux.dao.security;
 
 import com.example.authentication.webflux.dao.domain.User;
 import org.springframework.security.core.GrantedAuthority;
