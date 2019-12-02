@@ -1,13 +1,11 @@
 package com.example.authentication.jwt;
 
 import com.example.authentication.jwt.domain.User;
-import com.example.authentication.jwt.dto.JwtToken;
 import com.example.authentication.jwt.dto.ApiResponse;
+import com.example.authentication.jwt.dto.JwtToken;
 import com.example.authentication.jwt.dto.Signin;
 import com.example.authentication.jwt.repostory.UserRepository;
-import com.example.authentication.jwt.security.jwt.JwtFilter;
 import com.example.authentication.jwt.security.jwt.JwtTokenProvider;
-import com.example.authentication.jwt.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,7 +16,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -47,7 +44,7 @@ public class ApiController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtTokenProvider.createToken(authentication);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+        httpHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
         return new ResponseEntity<>(new JwtToken(jwt), httpHeaders, HttpStatus.OK);
     }
 
