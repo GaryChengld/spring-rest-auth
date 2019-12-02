@@ -4,6 +4,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -23,8 +24,6 @@ import java.io.IOException;
  */
 @Slf4j
 public class JwtFilter extends OncePerRequestFilter {
-    public static final String AUTHORIZATION_HEADER = "Authorization";
-
     private final AuthenticationEntryPoint authenticationEntryPoint;
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -58,7 +57,7 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     private String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+        String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }
