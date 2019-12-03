@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 /**
  * @author Gary Cheng
@@ -33,6 +34,7 @@ public class JwtAuthenticationManager implements ReactiveAuthenticationManager {
                 .switchIfEmpty(Mono.defer(this::raiseBadCredentials))
                 .cast(UsernamePasswordAuthenticationToken.class)
                 .flatMap(this::findUserDetails)
+                .publishOn(Schedulers.parallel())
                 .onErrorResume(e -> raiseBadCredentials())
                 .filter(u -> passwordEncoder.matches((String) authentication.getCredentials(), u.getPassword()))
                 .switchIfEmpty(Mono.defer(this::raiseBadCredentials))
@@ -49,7 +51,8 @@ public class JwtAuthenticationManager implements ReactiveAuthenticationManager {
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             log.info("authenticated user " + username + ", setting security context");
             return this.userDetailsService.findByUsername(username);
+        } else {
+            return Mono.empty();
         }
-        return null;
     }
 }

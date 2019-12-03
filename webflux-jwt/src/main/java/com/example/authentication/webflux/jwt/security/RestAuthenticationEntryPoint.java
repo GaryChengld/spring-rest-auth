@@ -21,7 +21,7 @@ public class RestAuthenticationEntryPoint implements ServerAuthenticationEntryPo
 
     @Override
     public Mono<Void> commence(ServerWebExchange exchange, AuthenticationException authException) {
-        log.info(authException.getMessage());
+        log.debug(authException.getMessage());
         ApiResponse apiResponse = new ApiResponse(HttpStatus.UNAUTHORIZED.value(), authException.getMessage());
         return HttpUtils.writeJsonResponse(exchange.getResponse(), HttpStatus.UNAUTHORIZED, apiResponse);
     }

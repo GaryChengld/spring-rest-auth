@@ -1,18 +1,19 @@
 package com.example.authentication.webflux.jwt.security.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -61,6 +62,14 @@ public class JwtTokenProvider implements InitializingBean {
     }
 
     public Authentication getAuthentication(String token) {
+        if (null == token || StringUtils.isEmpty(token)) {
+            throw new BadCredentialsException("Invalid token");
+        }
+        try {
+            this.validateToken(token);
+        } catch (AuthenticationException e) {
+            throw e;
+        }
         Claims claims = Jwts.parser()
                 .setSigningKey(key)
                 .parseClaimsJws(token)
@@ -75,6 +84,22 @@ public class JwtTokenProvider implements InitializingBean {
 
     public void validateToken(String authToken) {
         log.debug("validateToken: {}", authToken);
-        Jwts.parser().setSigningKey(key).parseClaimsJws(authToken);
+        try {
+            Jwts.parser().setSigningKey(key).parseClaimsJws(authToken);
+        } catch (JwtException e) {
+            throw this.toAuthenticationException(e);
+        }
+    }
+
+    private AuthenticationException toAuthenticationException(JwtException jwtException) {
+        String message;
+        if (jwtException instanceof ExpiredJwtException) {
+            message = "Expired JWT token";
+        } else if (jwtException instanceof UnsupportedJwtException) {
+            message = "Unsupported JWT token";
+        } else {
+            message = "Invalid JWT token";
+        }
+        return new BadCredentialsException(message);
     }
 }

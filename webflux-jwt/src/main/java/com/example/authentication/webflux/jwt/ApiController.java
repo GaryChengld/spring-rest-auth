@@ -2,18 +2,24 @@ package com.example.authentication.webflux.jwt;
 
 import com.example.authentication.webflux.jwt.domain.User;
 import com.example.authentication.webflux.jwt.dto.ApiResponse;
+import com.example.authentication.webflux.jwt.dto.AuthRequest;
+import com.example.authentication.webflux.jwt.dto.JwtToken;
 import com.example.authentication.webflux.jwt.repostory.UserRepository;
+import com.example.authentication.webflux.jwt.security.jwt.JwtAuthenticationManager;
+import com.example.authentication.webflux.jwt.security.jwt.JwtTokenProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.ReactiveSecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+
+import javax.validation.Valid;
 
 /**
  * @author Gary Cheng
@@ -23,11 +29,28 @@ import reactor.core.publisher.Mono;
 @Slf4j
 public class ApiController {
     @Autowired
+    private JwtAuthenticationManager authenticationManager;
+    @Autowired
+    private JwtTokenProvider tokenProvider;
+    @Autowired
     private UserRepository userRepository;
 
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
     public Mono<ApiResponse> home() {
         return Mono.just(new ApiResponse("Public Api"));
+    }
+
+    @PostMapping("/signin")
+    public Mono<ResponseEntity<?>> authorize(@Valid @RequestBody AuthRequest authRequest) {
+        log.debug("authorize authRequest:{}", authRequest);
+        Authentication authenticationToken =
+                new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword());
+        return this.authenticationManager.authenticate(authenticationToken)
+                .doOnSuccess($ -> ReactiveSecurityContextHolder.withAuthentication(authenticationToken))
+                .map(tokenProvider::createToken)
+                .map(JwtToken::new)
+                .<ResponseEntity<?>>map(ResponseEntity::ok)
+                .onErrorResume(e -> Mono.just(responseEntity(HttpStatus.UNAUTHORIZED, e.getMessage())));
     }
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
