@@ -1,74 +1,88 @@
-package com.example.authentication.webflux.jwt.security;
+package com.example.authentication.jwt.security;
 
-import com.example.authentication.webflux.jwt.security.jwt.*;
-import com.example.authentication.webflux.jwt.service.CustomUserDetailsService;
-import lombok.extern.slf4j.Slf4j;
+import com.example.authentication.jwt.security.jwt.JwtFilterConfigurer;
+import com.example.authentication.jwt.security.jwt.JwtTokenProvider;
+import com.example.authentication.jwt.service.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
-import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
-import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
-import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
-import org.springframework.security.web.server.authentication.ServerAuthenticationEntryPointFailureHandler;
-import org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository;
 
 /**
  * @author Gary Cheng
  */
 @Configuration
-@EnableWebFluxSecurity
-@EnableReactiveMethodSecurity
-@Slf4j
-public class SecurityConfigure {
-    private final CustomUserDetailsService userDetailsService;
-    private final JwtTokenProvider tokenProvider;
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class SecurityConfigure extends WebSecurityConfigurerAdapter {
+    private final CustomUserDetailsService customUserDetailsService;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    private final RestAccessDeniedHandler restAccessDeniedHandler;
 
-    public SecurityConfigure(CustomUserDetailsService userDetailsService, JwtTokenProvider tokenProvider) {
-        this.userDetailsService = userDetailsService;
-        this.tokenProvider = tokenProvider;
+    @Autowired
+    public SecurityConfigure(CustomUserDetailsService customUserDetailsService,
+                             JwtTokenProvider jwtTokenProvider,
+                             RestAuthenticationEntryPoint restAuthenticationEntryPoint,
+                             RestAccessDeniedHandler restAccessDeniedHandler) {
+        this.customUserDetailsService = customUserDetailsService;
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.restAuthenticationEntryPoint = restAuthenticationEntryPoint;
+        this.restAccessDeniedHandler = restAccessDeniedHandler;
     }
 
-    @Bean
-    public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http,
-                                                            RestAuthenticationEntryPoint authenticationEntryPoint,
-                                                            RestServerAccessDeniedHandler accessDeniedHandler) {
-        log.debug("config SecurityWebFilterChain");
-        http.httpBasic().disable()
-                .formLogin().disable()
-                .csrf().disable()
-                .logout().disable();
-        http.authorizeExchange().pathMatchers("/api/welcome").permitAll()
-                .and().authorizeExchange().pathMatchers(HttpMethod.POST, "/api/signin").permitAll()
-                .and().authorizeExchange().pathMatchers(HttpMethod.OPTIONS).permitAll()
-                .anyExchange().authenticated()
-                .and().addFilterAt(jwtWebFilter(authenticationEntryPoint), SecurityWebFiltersOrder.AUTHORIZATION)
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring()
+                .antMatchers(HttpMethod.OPTIONS, "/**")
+                .antMatchers("/h2/**", "/favicon.ico", "/error");
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPoint)
-                .accessDeniedHandler(accessDeniedHandler);
-
-        return http.build();
+                .authenticationEntryPoint(restAuthenticationEntryPoint)
+                .accessDeniedHandler(restAccessDeniedHandler)
+                .and()
+                .authorizeRequests()
+                .antMatchers("/api/welcome").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/signin").permitAll()
+                .anyRequest().authenticated()
+                .and().headers().frameOptions().sameOrigin()
+                .and()
+                .apply(this.jwtSecurityConfigurerAdapter());
     }
 
-    public AuthenticationWebFilter jwtWebFilter(RestAuthenticationEntryPoint authenticationEntryPoint) {
-        AuthenticationWebFilter filter = new JwtAuthenticationWebFilter(jwtAuthenticationManager());
-        filter.setServerAuthenticationConverter(new JwtTokenAuthenticationConverter(tokenProvider));
-        filter.setRequiresAuthenticationMatcher(new JwtHeadersExchangeMatcher());
-        filter.setSecurityContextRepository(new WebSessionServerSecurityContextRepository());
-        filter.setAuthenticationFailureHandler(new ServerAuthenticationEntryPointFailureHandler(authenticationEntryPoint));
-        return filter;
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(this.customUserDetailsService)
+                .passwordEncoder(passwordEncoder());
     }
 
     @Bean
-    public JwtAuthenticationManager jwtAuthenticationManager() {
-        return new JwtAuthenticationManager(userDetailsService, passwordEncoder());
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+  }
+
+    private JwtFilterConfigurer jwtSecurityConfigurerAdapter() {
+        return new JwtFilterConfigurer(jwtTokenProvider, restAuthenticationEntryPoint);
     }
 }
