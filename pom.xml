@@ -16,5 +16,6 @@
     <module>webflux-basic</module>
     <module>webflux-dao</module>
     <module>webflux-method-level</module>
+    <module>webflux-jwt</module>
   </modules>
 </project>
