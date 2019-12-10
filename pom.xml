@@ -13,7 +13,7 @@
     <module>basic-dao</module>
     <module>method-level</module>
     <module>jwt</module>
-    <module>oauth2-form</module>
+    <module>oauth2</module>
     <module>webflux-basic</module>
     <module>webflux-dao</module>
     <module>webflux-method-level</module>
