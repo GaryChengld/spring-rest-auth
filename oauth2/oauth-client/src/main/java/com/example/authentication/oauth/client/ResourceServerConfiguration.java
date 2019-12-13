@@ -4,30 +4,26 @@ import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoT
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 
 /**
  * @author Gary Cheng
  */
 @Configuration
 @EnableResourceServer
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+@Order(2)
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.antMatcher("/**")
-                .authorizeRequests()
-                .antMatchers("/", "/login**", "/logout", "/api/welcome")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and().oauth2Login();
+        http.authorizeRequests()
+                .antMatchers("/api/welcome").permitAll()
+                .antMatchers("/api/user").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/api/admin").hasRole("ADMIN")
+                .antMatchers("/api/**").authenticated();
     }
 
     @Primary
