@@ -28,7 +28,7 @@ public class AuthServerConfiguration extends AuthorizationServerConfigurerAdapte
     @Value("${oauth.clientSecret}")
     private String ClientSecret;
     @Value("${oauth.redirectUris}")
-    private String RedirectURLs;
+    private String[] RedirectURLs;
 
     @Autowired
     private PasswordEncoder passwordEncoder;

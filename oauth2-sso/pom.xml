@@ -10,5 +10,6 @@
   <modules>
     <module>auth-server</module>
     <module>ui-client1</module>
+    <module>ui-client2</module>
   </modules>
 </project>
