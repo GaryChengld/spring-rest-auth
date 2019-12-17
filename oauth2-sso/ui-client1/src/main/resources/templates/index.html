@@ -7,7 +7,8 @@
 </head>
 <body>
 <h1>Spring OAuth2 SSO</h1>
-<a href="securedPage">Secured Page 1</a>
+<a href="securedPage">Secured UI 1</a><br>
+<a href="http://localhost:8083/ui2/securedPage">Secured UI 2</a>
 <div sec:authorize="isAuthenticated()">
     Hello <span sec:authentication="name">someone</span>
     <p><a th:href="@{/logout}">Logout</a></p>

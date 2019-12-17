@@ -1,5 +1,6 @@
 server:
   port: 8083
+  servlet.context-path: /ui2
   session:
     cookie:
       name: UISESSION2
@@ -22,7 +23,7 @@ spring:
               - read
               - write
             provider: custom-provider
-            redirect-uri: http://localhost:8083/login/oauth2/code/
+            redirect-uri: http://localhost:8083/ui2/login/oauth2/code/
             client-authentication-method: basic
             authorization-grant-type: authorization_code
         provider:

@@ -11,8 +11,8 @@ spring:
       client:
         registration:
           custom-client:
-            client-id: R2dpxQ3vPrtfgF72
-            client-secret: fDw7Mpkk5czHNuSRtmhGmAGL42CaxQB9
+            client-id: oauth-client
+            client-secret: p2s5v8y/B?E(H+MbPeShVmYq3t6w9z$C
             client-name: OAuth Client
             scope:
               - user_info
@@ -29,5 +29,3 @@ spring:
             user-info-uri: http://localhost:8081/auth/user/me
             user-name-attribute: name
             user-info-authentication-method: header
-      resource:
-        user-info-uri: http://localhost:8081/auth/user/me

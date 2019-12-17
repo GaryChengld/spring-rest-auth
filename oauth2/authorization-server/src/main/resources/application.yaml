@@ -13,6 +13,6 @@ spring:
       path: /h2
 
 oauth:
-  clientId: R2dpxQ3vPrtfgF72
-  clientSecret: fDw7Mpkk5czHNuSRtmhGmAGL42CaxQB9
-  redirectUris: http://localhost:8080/login/oauth2/code/
+  clientId: oauth-client
+  clientSecret: p2s5v8y/B?E(H+MbPeShVmYq3t6w9z$C
+  redirectUris: http://localhost:8080/ui1/login/oauth2/code/

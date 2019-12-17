@@ -16,5 +16,5 @@ oauth:
   clientId: oauth-sso-client
   clientSecret: p2s5v8y/B?E(H+MbPeShVmYq3t6w9z$C
   redirectUris: >
-    http://localhost:8082/login/oauth2/code/,
-    http://localhost:8083/login/oauth2/code/
+    http://localhost:8082/ui1/login/oauth2/code/,
+    http://localhost:8083/ui2/login/oauth2/code/
