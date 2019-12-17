@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class CustomUserDetailsService implements UserDetailsService {
-    private static final String ROLE_ADMIN = "ROLE_ADMIN";
     private UserRepository userRepository;
 
     @Autowired
@@ -31,11 +30,5 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
         return new UserPrincipal(user);
-    }
-
-    public boolean canAccessUser(org.springframework.security.core.userdetails.User currentUser, String username) {
-        log.debug("Checking if {} has access to {}", currentUser.getUsername(), username);
-        return currentUser != null
-                && (currentUser.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals(ROLE_ADMIN) || currentUser.getUsername().equals(username)));
     }
 }

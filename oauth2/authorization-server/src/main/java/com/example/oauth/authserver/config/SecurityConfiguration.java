@@ -1,4 +1,4 @@
-package com.example.oauth.authserver;
+package com.example.oauth.authserver.config;
 
 import com.example.oauth.authserver.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
