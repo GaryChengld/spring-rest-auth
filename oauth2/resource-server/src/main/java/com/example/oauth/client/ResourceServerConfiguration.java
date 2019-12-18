@@ -19,9 +19,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 @Order(1)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
-    @Value("${spring.security.oauth2.client.provider.custom-provider.user-info-uri}")
+    @Value("${spring.security.oauth2.resource.token-info-uri}")
     private String userInfoEndpointUrl;
-    @Value("${spring.security.oauth2.client.registration.custom-client.client-id}")
+    @Value("${spring.security.oauth2.resource.client-id}")
     private String clientId;
 
     @Override

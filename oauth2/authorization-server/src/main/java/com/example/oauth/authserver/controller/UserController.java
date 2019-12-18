@@ -14,7 +14,7 @@ import java.security.Principal;
 public class UserController {
     @GetMapping("/user/me")
     public Principal user(Principal principal) {
-        log.debug("user me");
+        log.info("user me");
         return principal;
     }
 }

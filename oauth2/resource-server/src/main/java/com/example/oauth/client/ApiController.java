@@ -31,7 +31,7 @@ public class ApiController {
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ApiResponse user(Principal principal) {
         log.info("principal:{}", principal);
-        return new ApiResponse("User Api");
+        return new ApiResponse("User - " + principal.getName());
     }
 
 }
