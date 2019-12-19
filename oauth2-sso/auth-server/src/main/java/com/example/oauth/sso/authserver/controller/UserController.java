@@ -1,4 +1,4 @@
-package com.example.oauth.sso.authserver;
+package com.example.oauth.sso.authserver.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -15,4 +15,3 @@ spring:
 oauth:
   clientId: oauth-client
   clientSecret: p2s5v8y/B?E(H+MbPeShVmYq3t6w9z$C
-  redirectUris: http://localhost:8080/ui1/login/oauth2/code/

@@ -29,9 +29,7 @@ public class ApiController {
 
     @GetMapping("/user")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
-    public ApiResponse user(Principal principal) {
-        log.info("principal:{}", principal);
-        return new ApiResponse("User - " + principal.getName());
+    public ApiResponse user() {
+        return new ApiResponse("User Api");
     }
-
 }

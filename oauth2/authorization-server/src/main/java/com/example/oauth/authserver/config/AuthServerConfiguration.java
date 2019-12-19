@@ -12,7 +12,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+
+import javax.sql.DataSource;
 
 /**
  * @author Gary Cheng
@@ -25,20 +27,22 @@ public class AuthServerConfiguration extends AuthorizationServerConfigurerAdapte
     private String ClientID;
     @Value("${oauth.clientSecret}")
     private String ClientSecret;
-    @Value("${oauth.redirectUris}")
-    private String RedirectURLs;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private TokenStore tokenStore;
-    @Autowired
     private AuthenticationManager authenticationManager;
+
+    private DataSource dataSource;
+
+    public AuthServerConfiguration(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
         security.tokenKeyAccess("permitAll()")
-                .checkTokenAccess("permitAll()");
+                .checkTokenAccess("isAuthenticated()");
     }
 
     @Override
@@ -49,18 +53,19 @@ public class AuthServerConfiguration extends AuthorizationServerConfigurerAdapte
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit")
                 .scopes("read", "write", "user_info")
                 .autoApprove(true)
-                .redirectUris(RedirectURLs);
+                .accessTokenValiditySeconds(3600)
+                .refreshTokenValiditySeconds(3600);
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints
                 .authenticationManager(authenticationManager)
-                .tokenStore(tokenStore);
+                .tokenStore(tokenStore());
     }
 
     @Bean
     public TokenStore tokenStore() {
-        return new InMemoryTokenStore();
+        return new JdbcTokenStore(this.dataSource);
     }
 }
