@@ -24,12 +24,8 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @Order(1)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
-    @Value("${oauth2.checkTokenUrl}")
-    private String checkTokenUrl;
-    @Value("${oauth2.clientId}")
-    private String clientId;
-    @Value("${oauth2.clientSecret}")
-    private String clientSecret;
+    @Value("${jwt.secretKey}")
+    private String jwtSecretKey;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -46,7 +42,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey("3778214125442A472D4B6150645367566B58703273357638792F423F4528482B");
+        converter.setSigningKey(jwtSecretKey);
         return converter;
     }
 

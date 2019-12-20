@@ -15,3 +15,6 @@ spring:
 oauth:
   clientId: oauth-client
   clientSecret: p2s5v8y/B?E(H+MbPeShVmYq3t6w9z$C
+
+jwt:
+  secretKey: 3778214125442A472D4B6150645367566B58703273357638792F423F4528482B

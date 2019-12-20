@@ -29,9 +29,11 @@ import java.util.Arrays;
 @EnableAuthorizationServer
 public class AuthServerConfiguration extends AuthorizationServerConfigurerAdapter {
     @Value("${oauth.clientId}")
-    private String ClientID;
+    private String clientID;
     @Value("${oauth.clientSecret}")
-    private String ClientSecret;
+    private String clientSecret;
+    @Value("${jwt.secretKey}")
+    private String jwtSecretKey;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -47,8 +49,8 @@ public class AuthServerConfiguration extends AuthorizationServerConfigurerAdapte
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
-                .withClient(ClientID)
-                .secret(passwordEncoder.encode(ClientSecret))
+                .withClient(clientID)
+                .secret(passwordEncoder.encode(clientSecret))
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit")
                 .scopes("read", "write", "user_info")
                 .autoApprove(true)
@@ -79,7 +81,7 @@ public class AuthServerConfiguration extends AuthorizationServerConfigurerAdapte
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey("3778214125442A472D4B6150645367566B58703273357638792F423F4528482B");
+        converter.setSigningKey(jwtSecretKey);
         return converter;
     }
 
