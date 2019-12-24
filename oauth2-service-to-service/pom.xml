@@ -10,6 +10,6 @@
   <modules>
     <module>authorization-server</module>
     <module>service-a</module>
-	<module>service-b</module>
+    <module>service-b</module>
   </modules>
 </project>

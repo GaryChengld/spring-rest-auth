@@ -1,6 +1,8 @@
 package com.example.oauth.client;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -12,7 +14,10 @@ import org.springframework.web.client.RestTemplate;
  * @author Gary Cheng
  */
 @Component
-public class ServiceBRestClient {
+@Slf4j
+public class ServiceBClient {
+    @Value("${service-b.url}")
+    private String serviceBUrl;
     @Autowired
     private RestTemplate restTemplate;
 
@@ -22,8 +27,12 @@ public class ServiceBRestClient {
             headers.set(HttpHeaders.AUTHORIZATION, authToken);
         }
         HttpEntity entity = new HttpEntity(headers);
-        ResponseEntity<ApiResponse> response = restTemplate.exchange(
-                "http://localhost:8083/api/service-b", HttpMethod.GET, entity, ApiResponse.class);
-        return response.getBody();
+        try {
+            ResponseEntity<ApiResponse> response = restTemplate.exchange(
+                    serviceBUrl, HttpMethod.GET, entity, ApiResponse.class);
+            return response.getBody();
+        } catch (Exception e) {
+            return HttpUtils.toApiResponse(e);
+        }
     }
 }

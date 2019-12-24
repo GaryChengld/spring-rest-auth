@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ApiController {
     @GetMapping("/service-b")
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     public ApiResponse service() {
         log.info("Received Service B request");
         return new ApiResponse("Service B");

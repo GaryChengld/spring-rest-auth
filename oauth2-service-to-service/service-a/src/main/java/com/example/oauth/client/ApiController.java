@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ApiController {
     @Autowired
-    private ServiceBRestClient serviceBClient;
+    private ServiceBClient serviceBClient;
 
     @GetMapping("/service-a")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
