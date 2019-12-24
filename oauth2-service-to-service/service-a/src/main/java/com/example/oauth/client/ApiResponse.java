@@ -1,5 +1,6 @@
 package com.example.oauth.client;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,8 @@ import lombok.NoArgsConstructor;
 public class ApiResponse {
     private Integer status;
     private String message;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Object data;
 
     public ApiResponse(String message) {
         this.status = 200;

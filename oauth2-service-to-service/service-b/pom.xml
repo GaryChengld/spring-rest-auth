@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example.oauth</groupId>
-	<artifactId>resource-server-a</artifactId>
+	<artifactId>service-b</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>resource-server-a</name>
+	<name>service-b</name>
 
 	<properties>
 		<java.version>1.8</java.version>

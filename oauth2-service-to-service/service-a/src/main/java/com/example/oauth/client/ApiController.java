@@ -1,13 +1,14 @@
 package com.example.oauth.client;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.security.Principal;
 
 /**
  * @author Gary Cheng
@@ -16,20 +17,15 @@ import java.security.Principal;
 @RestController
 @RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ApiController {
-    @GetMapping("/welcome")
-    public ApiResponse home() {
-        return new ApiResponse("Public Api");
-    }
+    @Autowired
+    private ServiceBRestClient serviceBClient;
 
-    @GetMapping("/admin")
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
-    public ApiResponse admin() {
-        return new ApiResponse("Admin Api");
-    }
-
-    @GetMapping("/user")
+    @GetMapping("/service-a")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
-    public ApiResponse user() {
-        return new ApiResponse("User Api");
+    public ApiResponse service(@RequestHeader(HttpHeaders.AUTHORIZATION) String authToken) {
+        ApiResponse apiResponse = new ApiResponse("Service A");
+        ApiResponse apiBResponse = serviceBClient.sendServiceBRequest(authToken);
+        apiResponse.setData(apiBResponse);
+        return apiResponse;
     }
 }

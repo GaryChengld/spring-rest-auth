@@ -16,7 +16,7 @@
     <module>oauth2</module>
     <module>oauth2-sso</module>
     <module>oauth2-jwt</module>
-    <module>oauth2-server-to-server</module>
+    <module>oauth2-service-to-service</module>
     <module>webflux-basic</module>
     <module>webflux-dao</module>
     <module>webflux-method-level</module>
