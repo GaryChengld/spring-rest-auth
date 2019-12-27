@@ -3,12 +3,12 @@ schema {
 }
 
 type Query {
-    userApi(): ApiInfo
-    adminApi(): ApiInfo
+    about: ApiInfo
+    userApi: ApiInfo
+    adminApi: ApiInfo
 }
 
 type ApiInfo {
-    id: ID!
     name: String!
-    version: String
+    version: String!
 }
