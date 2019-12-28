@@ -1,7 +1,6 @@
 package com.example.graphql;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -20,18 +19,17 @@ import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 @Order(1)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
-    @Value("${oauth.checkTokenUrl}")
+    @Value("${oauth2.checkTokenUrl}")
     private String checkTokenUrl;
-    @Value("${oauth.clientId}")
+    @Value("${oauth2.clientId}")
     private String clientId;
-    @Value("${oauth.clientSecret}")
+    @Value("${oauth2.clientSecret}")
     private String clientSecret;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/api/welcome").permitAll()
-                .antMatchers("/api/**").authenticated();
+                .antMatchers("/graphql").permitAll();
     }
 
     @Primary
