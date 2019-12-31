@@ -18,6 +18,7 @@
     <module>oauth2-jwt</module>
     <module>oauth2-service-to-service</module>
     <module>oauth2-graphql</module>
+    <module>oauth2-flux</module>
     <module>webflux-basic</module>
     <module>webflux-dao</module>
     <module>webflux-method-level</module>
