@@ -8,7 +8,8 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>authorization-server</module>
+    <module>auth-server</module>
     <module>resource-server</module>
+    <module>resource-server-flux</module>
   </modules>
 </project>

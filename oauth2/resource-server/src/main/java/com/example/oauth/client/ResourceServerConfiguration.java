@@ -20,11 +20,11 @@ import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 @Order(1)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
-    @Value("${oauth.checkTokenUrl}")
+    @Value("${oauth2.checkTokenUrl}")
     private String checkTokenUrl;
-    @Value("${oauth.clientId}")
+    @Value("${oauth2.clientId}")
     private String clientId;
-    @Value("${oauth.clientSecret}")
+    @Value("${oauth2.clientSecret}")
     private String clientSecret;
 
     @Override
