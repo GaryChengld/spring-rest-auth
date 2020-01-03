@@ -3,21 +3,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.example</groupId>
-  <artifactId>spring-authentication-examples</artifactId>
+  <artifactId>spring-oauth2-jwt-secretkey</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <modules>
-    <module>basic</module>
-    <module>basic-jdbc</module>
-    <module>basic-dao</module>
-    <module>method-level</module>
-    <module>jwt</module>
-    <module>oauth2</module>
-    <module>oauth2-jwt-secretkey</module>
-    <module>webflux-basic</module>
-    <module>webflux-dao</module>
-    <module>webflux-method-level</module>
-    <module>webflux-jwt</module>
+    <module>auth-server</module>
+    <module>resource-server</module>
+    <module>resource-server-flux</module>
   </modules>
 </project>
