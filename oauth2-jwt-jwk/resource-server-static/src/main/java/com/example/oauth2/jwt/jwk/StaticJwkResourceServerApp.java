@@ -1,13 +1,13 @@
-package com.example.oauth2.jwt.jws;
+package com.example.oauth2.jwt.jwk;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class JwtJwsResourceServerApp {
+public class StaticJwkResourceServerApp {
 
 	public static void main(String[] args) {
-		SpringApplication.run(JwtJwsResourceServerApp.class, args);
+		SpringApplication.run(StaticJwkResourceServerApp.class, args);
 	}
 
 }

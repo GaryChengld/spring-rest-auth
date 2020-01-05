@@ -29,6 +29,8 @@ import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFacto
 import java.security.KeyPair;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * @author Gary Cheng
@@ -99,9 +101,8 @@ public class AuthServerConfiguration extends AuthorizationServerConfigurerAdapte
 
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setKeyPair(keyPair());
-        return converter;
+        Map<String, String> customHeaders = Collections.singletonMap("kid", keyId);
+        return new JwtCustomHeadersAccessTokenConverter(customHeaders, keyPair());
     }
 
     @Bean

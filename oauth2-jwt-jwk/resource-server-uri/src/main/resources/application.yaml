@@ -1,0 +1,15 @@
+server:
+  port: 8080
+
+
+security:
+  oauth2:
+    resource:
+      jwk:
+        key-set-uri: http://localhost:8081/auth/.well-known/jwks.json
+
+logging:
+  level:
+    org.springframework: WARN
+    io.netty: WARN
+    com.example: DEBUG

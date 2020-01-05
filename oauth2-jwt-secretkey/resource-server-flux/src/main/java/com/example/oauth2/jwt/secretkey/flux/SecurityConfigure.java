@@ -29,6 +29,8 @@ import javax.crypto.spec.SecretKeySpec;
 public class SecurityConfigure {
     @Value("${jwt.secretKey}")
     private String key;
+    @Value("${jwt.algorithm}")
+    private String algorithm;
 
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
@@ -46,7 +48,7 @@ public class SecurityConfigure {
 
     @Bean
     public ReactiveJwtDecoder jwtDecoder() {
-        SecretKey secretKey = new SecretKeySpec(key.getBytes(), "HMACSHA256");
+        SecretKey secretKey = new SecretKeySpec(key.getBytes(), algorithm);
         return NimbusReactiveJwtDecoder.withSecretKey(secretKey).build();
     }
 

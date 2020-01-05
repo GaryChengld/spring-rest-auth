@@ -1,4 +1,4 @@
-package com.example.oauth2.jwt.jws;
+package com.example.oauth2.jwt.jwk;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;

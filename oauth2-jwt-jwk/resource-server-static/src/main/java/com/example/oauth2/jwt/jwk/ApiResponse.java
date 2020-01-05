@@ -1,4 +1,4 @@
-package com.example.oauth2.jwt.jws;
+package com.example.oauth2.jwt.jwk;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

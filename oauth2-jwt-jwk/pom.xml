@@ -9,7 +9,8 @@
 
   <modules>
     <module>auth-server</module>
-    <module>resource-server</module>
+    <module>resource-server-static</module>
+    <module>resource-server-uri</module>
     <module>resource-server-flux</module>
   </modules>
 </project>

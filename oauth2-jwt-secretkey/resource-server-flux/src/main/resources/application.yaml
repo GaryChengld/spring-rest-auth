@@ -2,8 +2,8 @@ server:
   port: 8080
 
 jwt:
-  key.location: classpath:my-key.pub
   secretKey: 3778214125442A472D4B6150645367566B58703273357638792F423F4528482B
+  algorithm: HMACSHA256
 
 logging:
   level:
