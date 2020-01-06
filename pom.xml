@@ -16,6 +16,7 @@
     <module>oauth2</module>
     <module>oauth2-jwt-secretkey</module>
     <module>oauth2-jwt-jwk</module>
+    <module>oauth2-keycloak</module>
     <module>webflux-basic</module>
     <module>webflux-dao</module>
     <module>webflux-method-level</module>
