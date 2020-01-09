@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 
 /**
@@ -20,13 +21,7 @@ import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 @Order(1)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
-    @Value("${oauth2.checkTokenUrl}")
-    private String checkTokenUrl;
-    @Value("${oauth2.clientId}")
-    private String clientId;
-    @Value("${oauth2.clientSecret}")
-    private String clientSecret;
-
+    private static final String RESOURCE_ID = "account";
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
@@ -34,13 +29,9 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .antMatchers("/api/**").authenticated();
     }
 
-    @Primary
-    @Bean
-    public RemoteTokenServices tokenServices() {
-        final RemoteTokenServices tokenService = new RemoteTokenServices();
-        tokenService.setCheckTokenEndpointUrl(checkTokenUrl);
-        tokenService.setClientId(clientId);
-        tokenService.setClientSecret(clientSecret);
-        return tokenService;
+    @Override
+    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+        resources.resourceId(RESOURCE_ID);
     }
+
 }

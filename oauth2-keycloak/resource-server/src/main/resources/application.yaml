@@ -1,7 +1,14 @@
 server:
   port: 8080
 
-oauth2:
-  checkTokenUrl: http://localhost:8081/auth/oauth/check_token
-  clientId: oauth-client
-  clientSecret: p2s5v8y/B?E(H+MbPeShVmYq3t6w9z$C
+security:
+  oauth2:
+    resource:
+      jwk:
+        key-set-uri: http://localhost:9000/auth/realms/myKeyCloak/protocol/openid-connect/certs
+
+logging:
+  level:
+    org.springframework: WARN
+    io.netty: WARN
+    com.example: DEBUG
