@@ -3,7 +3,6 @@ package com.example.oauth2.resourceserver;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.JwtAccessTokenConverterConfigurer;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,7 +10,6 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Request;
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -24,15 +22,17 @@ import java.util.Set;
  */
 @Slf4j
 @Component
-public class KeycloakAccessTokenConverter extends DefaultAccessTokenConverter implements JwtAccessTokenConverterConfigurer {
+public class KeycloakAccessTokenConverter extends DefaultAccessTokenConverter {
     private final ObjectMapper mapper;
-    private static final String CLIENT_NAME_ELEMENT_IN_JWT = "resource_access";
-    private static final String ROLE_ELEMENT_IN_JWT = "roles";
+    private static final String RESOURCE_ELEMENT = "resource_access";
+    private static final String REALM_ELEMENT = "realm_access";
+    private static final String ROLE_ELEMENT = "roles";
 
     public KeycloakAccessTokenConverter(ObjectMapper mapper) {
-        this.mapper = mapper;
         log.info("Initialized {}", KeycloakAccessTokenConverter.class.getSimpleName());
+        this.mapper = mapper;
     }
+
 
     @Override
     public OAuth2Authentication extractAuthentication(Map<String, ?> tokenMap) {
@@ -54,22 +54,21 @@ public class KeycloakAccessTokenConverter extends DefaultAccessTokenConverter im
 
     private List<GrantedAuthority> extractRoles(JsonNode jwt) {
         log.debug("Begin extractRoles: jwt = {}", jwt);
-        Set<String> rolesWithPrefix = new HashSet<>();
-        jwt.path(CLIENT_NAME_ELEMENT_IN_JWT)
+        Set<String> roles = new HashSet<>();
+        jwt.path(REALM_ELEMENT)
+                .path(ROLE_ELEMENT)
                 .elements()
-                .forEachRemaining(e -> e.path(ROLE_ELEMENT_IN_JWT)
-                        .elements()
-                        .forEachRemaining(r -> rolesWithPrefix.add("ROLE_" + r.asText())));
+                .forEachRemaining(r -> roles.add(r.asText()));
 
-        final List<GrantedAuthority> authorityList = AuthorityUtils.createAuthorityList(rolesWithPrefix.toArray(new String[0]));
+        final List<GrantedAuthority> authorityList = AuthorityUtils.createAuthorityList(roles.toArray(new String[0]));
         log.debug("End extractRoles: roles = {}", authorityList);
         return authorityList;
     }
 
     private Set<String> extractClients(JsonNode jwt) {
         log.debug("Begin extractClients: jwt = {}", jwt);
-        if (jwt.has(CLIENT_NAME_ELEMENT_IN_JWT)) {
-            JsonNode resourceAccessJsonNode = jwt.path(CLIENT_NAME_ELEMENT_IN_JWT);
+        if (jwt.has(RESOURCE_ELEMENT)) {
+            JsonNode resourceAccessJsonNode = jwt.path(RESOURCE_ELEMENT);
             final Set<String> clientNames = new HashSet<>();
             resourceAccessJsonNode.fieldNames()
                     .forEachRemaining(clientNames::add);
@@ -77,13 +76,7 @@ public class KeycloakAccessTokenConverter extends DefaultAccessTokenConverter im
             return clientNames;
 
         } else {
-            throw new IllegalArgumentException("Expected element " + CLIENT_NAME_ELEMENT_IN_JWT + " not found in token");
+            throw new IllegalArgumentException("Expected element " + RESOURCE_ELEMENT + " not found in token");
         }
-    }
-
-    @Override
-    public void configure(JwtAccessTokenConverter converter) {
-        log.debug("configure JwtAccessTokenConverter");
-        converter.setAccessTokenConverter(this);
     }
 }
