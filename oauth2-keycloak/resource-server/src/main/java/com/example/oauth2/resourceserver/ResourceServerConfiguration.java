@@ -24,7 +24,7 @@ import org.springframework.security.oauth2.provider.token.store.jwk.JwkTokenStor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @ConditionalOnBean(KeycloakAccessTokenConverter.class)
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
-    private static final String RESOURCE_ID = "account";
+    private static final String RESOURCE_ID = "exampleResource";
     @Value("${security.oauth2.resource.jwk.key-set-uri}")
     private String jwkSetUri;
     @Autowired

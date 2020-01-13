@@ -24,7 +24,6 @@ import java.util.Set;
 @Component
 public class KeycloakAccessTokenConverter extends DefaultAccessTokenConverter {
     private final ObjectMapper mapper;
-    private static final String RESOURCE_ELEMENT = "resource_access";
     private static final String REALM_ELEMENT = "realm_access";
     private static final String ROLE_ELEMENT = "roles";
 
@@ -38,7 +37,6 @@ public class KeycloakAccessTokenConverter extends DefaultAccessTokenConverter {
     public OAuth2Authentication extractAuthentication(Map<String, ?> tokenMap) {
         log.debug("Begin extractAuthentication: tokenMap = {}", tokenMap);
         JsonNode token = mapper.convertValue(tokenMap, JsonNode.class);
-        Set<String> audienceList = extractClients(token); // extracting client names
         List<GrantedAuthority> authorities = extractRoles(token); // extracting client roles
 
         OAuth2Authentication authentication = super.extractAuthentication(tokenMap);
@@ -46,7 +44,7 @@ public class KeycloakAccessTokenConverter extends DefaultAccessTokenConverter {
 
         OAuth2Request request =
                 new OAuth2Request(oAuth2Request.getRequestParameters(), oAuth2Request.getClientId(), authorities, true, oAuth2Request.getScope(),
-                        audienceList, null, null, null);
+                        null, null, null, null);
         Authentication usernamePasswordAuthentication = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), "N/A", authorities);
         log.debug("End extractAuthentication");
         return new OAuth2Authentication(request, usernamePasswordAuthentication);
@@ -63,20 +61,5 @@ public class KeycloakAccessTokenConverter extends DefaultAccessTokenConverter {
         final List<GrantedAuthority> authorityList = AuthorityUtils.createAuthorityList(roles.toArray(new String[0]));
         log.debug("End extractRoles: roles = {}", authorityList);
         return authorityList;
-    }
-
-    private Set<String> extractClients(JsonNode jwt) {
-        log.debug("Begin extractClients: jwt = {}", jwt);
-        if (jwt.has(RESOURCE_ELEMENT)) {
-            JsonNode resourceAccessJsonNode = jwt.path(RESOURCE_ELEMENT);
-            final Set<String> clientNames = new HashSet<>();
-            resourceAccessJsonNode.fieldNames()
-                    .forEachRemaining(clientNames::add);
-            log.debug("End extractClients: clients = {}", clientNames);
-            return clientNames;
-
-        } else {
-            throw new IllegalArgumentException("Expected element " + RESOURCE_ELEMENT + " not found in token");
-        }
     }
 }
