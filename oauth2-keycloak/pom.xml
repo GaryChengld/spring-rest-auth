@@ -9,6 +9,7 @@
 
   <modules>
     <module>resource-server</module>
+    <module>resource-server-jwk</module>
     <module>resource-server-flux</module>
   </modules>
 </project>

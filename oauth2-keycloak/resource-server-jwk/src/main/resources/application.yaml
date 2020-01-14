@@ -1,0 +1,15 @@
+server:
+  port: 8080
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:9000/auth/realms/myKeyCloak/protocol/openid-connect/certs
+
+logging:
+  level:
+    org.springframework: WARN
+    io.netty: WARN
+    com.example: DEBUG

@@ -1,4 +1,4 @@
-package com.example.oauth2.keycloak;
+package com.example.oauth2.keycloak.sericuty;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -21,15 +21,28 @@ import reactor.core.publisher.Mono;
 @EnableReactiveMethodSecurity
 @Slf4j
 public class SecurityConfigure {
+    private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    private final RestServerAccessDeniedHandler restAccessDeniedHandler;
+
+    public SecurityConfigure(RestAuthenticationEntryPoint restAuthenticationEntryPoint, RestServerAccessDeniedHandler restAccessDeniedHandler) {
+        this.restAuthenticationEntryPoint = restAuthenticationEntryPoint;
+        this.restAccessDeniedHandler = restAccessDeniedHandler;
+    }
+
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         log.debug("config SecurityWebFilterChain");
         http.httpBasic().disable()
+                .exceptionHandling()
+                .accessDeniedHandler(restAccessDeniedHandler)
+                .and()
                 .authorizeExchange()
                 .pathMatchers("/api/welcome").permitAll()
                 .pathMatchers("/api/**").authenticated()
-                .and().oauth2ResourceServer().jwt()
-                .jwtAuthenticationConverter(this.jwtAuthenticationConverter());
+                .and()
+                .oauth2ResourceServer(configurer -> configurer.authenticationEntryPoint(restAuthenticationEntryPoint)
+                        .jwt()
+                        .jwtAuthenticationConverter(this.jwtAuthenticationConverter()));
         return http.build();
     }
 
