@@ -1,0 +1,15 @@
+server:
+  port: 8080
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: https://dev-753636.okta.com/oauth2/default/v1/keys
+
+logging:
+  level:
+    org.springframework: WARN
+    io.netty: WARN
+    com.example: DEBUG
