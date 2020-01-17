@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<h1>Spring Security Authentication with Okta</h1>
+<a href="securedPage">Secured area</a><br>
+<div sec:authorize="isAuthenticated()">
+    Hello <span sec:authentication="name">someone</span>
+    <p><a th:href="@{/logout}">Logout</a></p>
+</div>
+</body>
+</html>
