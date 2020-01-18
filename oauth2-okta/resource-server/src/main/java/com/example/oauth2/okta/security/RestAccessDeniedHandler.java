@@ -1,7 +1,7 @@
 package com.example.oauth2.okta.security;
 
-import com.example.oauth2.keycloak.ApiResponse;
-import com.example.oauth2.keycloak.HttpUtils;
+import com.example.oauth2.okta.ApiResponse;
+import com.example.oauth2.okta.HttpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

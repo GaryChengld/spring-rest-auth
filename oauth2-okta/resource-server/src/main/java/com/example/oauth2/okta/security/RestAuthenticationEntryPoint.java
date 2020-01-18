@@ -1,6 +1,6 @@
 package com.example.oauth2.okta.security;
 
-import com.example.oauth2.keycloak.ApiResponse;
+import com.example.oauth2.okta.ApiResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;

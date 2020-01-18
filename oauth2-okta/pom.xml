@@ -9,6 +9,6 @@
 
   <modules>
     <module>resource-server</module>
-    <module>ui-client</module>
+    <module>web-client</module>
   </modules>
 </project>

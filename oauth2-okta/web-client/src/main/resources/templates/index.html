@@ -5,12 +5,15 @@
     <meta charset="UTF-8">
     <title>Home</title>
 </head>
-<body>
-<h1>Spring Security Authentication with Okta</h1>
+<p>
+    <h1>Spring Security Authentication with Okta</h1>
+</p>
+<p>
+    <div sec:authorize="isAuthenticated()">
+        <div th:if="${user.claims.containsKey('name')}">
+            Hello <span th:text="${user.claims.name}"></span>
+        </div>
+    </div>
+</p>
 <a href="securedPage">Secured area</a><br>
-<div sec:authorize="isAuthenticated()">
-    Hello <span sec:authentication="name">someone</span>
-    <p><a th:href="@{/logout}">Logout</a></p>
-</div>
-</body>
 </html>

@@ -9,9 +9,9 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>com.example.oauth2</groupId>
-  <artifactId>okta-ui-client</artifactId>
+  <artifactId>okta-web-client</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>ui-client1</name>
+  <name>okta-web-client</name>
 
   <properties>
     <java.version>1.8</java.version>
