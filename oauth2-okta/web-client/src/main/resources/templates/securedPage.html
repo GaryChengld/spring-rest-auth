@@ -7,7 +7,10 @@
 <body>
 <h1>Secured Page</h1>
 <div th:if="${user.claims.containsKey('name')}">
-    Hello <span th:text="${user.claims.name}"></span>
+    Hello <span th:text="${user.claims.name}"></span><br>
+</div>
+<div>
+    Token: [[${token}]]<br>
 </div>
 <p><a href="/">Home</a></p>
 </body>

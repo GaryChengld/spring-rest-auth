@@ -21,6 +21,7 @@ public class WebController {
     public ModelAndView securedPage(@AuthenticationPrincipal OidcUser user, Authentication authentication) {
         ModelAndView mav = new ModelAndView();
         mav.addObject("user", user.getUserInfo());
+        mav.addObject("token", user.getIdToken().getTokenValue());
         mav.setViewName("securedPage");
         return mav;
     }
