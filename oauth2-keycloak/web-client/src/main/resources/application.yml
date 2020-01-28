@@ -5,25 +5,25 @@ spring:
   thymeleaf:
     cache: false
 
-security:
-  oauth2:
-    client:
-      registration:
-        keycloak:
-          client-id: oauth-client
-          client-secret: 8dd476b4-2786-4a5f-9ded-3683bda5bd17
-          #clientName: Keycloak
-          authorization-grant-type: authorization_code
-          redirectUriTemplate: '{baseUrl}/login/oauth2/code/{registrationId}'
-          scope:
-            - openid
-            - profile
-            - email
-
-      provider:
-        keycloak:
-          authorization-uri: http://localhost:9000/auth/realms/myKeyCloak/protocol/openid-connect/auth
-          token-uri: http://localhost:9000/auth/realms/myKeyCloak/protocol/openid-connect/token
-          user-info-uri: http://localhost:9000/auth/realms/myKeyCloak/protocol/openid-connect/userinfo
-          jwk-set-uri: http://localhost:9000/auth/realms/myKeyCloak/protocol/openid-connect/certs
-          user-name-attribute: preferred_username
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: oauth-client
+            client-secret: 8dd476b4-2786-4a5f-9ded-3683bda5bd17
+            clientName: Keycloak
+            provider: keycloak
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8080/login/oauth2/code/
+            scope:
+              - openid
+              - profile
+              - email
+        provider:
+          keycloak:
+            authorization-uri: http://localhost:9000/auth/realms/myKeyCloak/protocol/openid-connect/auth
+            token-uri: http://localhost:9000/auth/realms/myKeyCloak/protocol/openid-connect/token
+            user-info-uri: http://localhost:9000/auth/realms/myKeyCloak/protocol/openid-connect/userinfo
+            jwk-set-uri: http://localhost:9000/auth/realms/myKeyCloak/protocol/openid-connect/certs
+            user-name-attribute: preferred_username
