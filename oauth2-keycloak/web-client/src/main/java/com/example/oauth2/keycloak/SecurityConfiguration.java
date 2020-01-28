@@ -17,7 +17,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/").permitAll()
                 .and()
                 .authorizeRequests().anyRequest().authenticated()
-                .and()
-                .logout().deleteCookies().invalidateHttpSession(true).logoutSuccessUrl("/").permitAll();
+                .and().oauth2Login()
+                .and().logout().deleteCookies().invalidateHttpSession(true).logoutSuccessUrl("/").permitAll();
     }
 }
