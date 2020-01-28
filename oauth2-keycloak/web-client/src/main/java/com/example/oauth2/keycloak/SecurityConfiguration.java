@@ -1,4 +1,4 @@
-package com.example.oauth2.okta;
+package com.example.oauth2.keycloak;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

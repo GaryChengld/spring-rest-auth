@@ -1,4 +1,4 @@
-package com.example.oauth2.okta;
+package com.example.oauth2.keycloak;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

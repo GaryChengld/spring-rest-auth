@@ -11,5 +11,6 @@
     <module>resource-server</module>
     <module>resource-server-jwk</module>
     <module>resource-server-flux</module>
+    <module>web-client</module>
   </modules>
 </project>
