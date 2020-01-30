@@ -10,9 +10,7 @@
 </p>
 <p>
     <div sec:authorize="isAuthenticated()">
-        <div th:if="${user.claims.containsKey('name')}">
-            Hello <span th:text="${user.claims.name}"></span>
-        </div>
+    Hello <span sec:authentication="name">someone</span>
         <br>
         <form method="post" action="/logout">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />

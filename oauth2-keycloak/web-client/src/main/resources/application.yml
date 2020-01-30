@@ -12,7 +12,7 @@ spring:
           keycloak:
             client-id: oauth-client
             client-secret: 8dd476b4-2786-4a5f-9ded-3683bda5bd17
-            clientName: Keycloak
+            clientName: OAuth2 Client of KeyCloak
             provider: keycloak
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:8080/login/oauth2/code/

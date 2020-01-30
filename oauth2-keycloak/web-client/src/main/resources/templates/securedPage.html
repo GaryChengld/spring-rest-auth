@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Secured Page</title>
 </head>
 <body>
 <h1>Secured Page</h1>
-<div th:if="${user.claims.containsKey('name')}">
-    Hello <span th:text="${user.claims.name}"></span><br>
-</div>
+Hello <span sec:authentication="name">someone</span>
 <div>
     Token: [[${token}]]<br>
 </div>
