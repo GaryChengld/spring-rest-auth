@@ -11,7 +11,7 @@ spring:
         registration:
           keycloak:
             client-id: oauth-client
-            client-secret: 8dd476b4-2786-4a5f-9ded-3683bda5bd17
+            client-secret: 9224eade-5ef3-4ada-90fb-431ffc33fce6
             clientName: OAuth2 Client of KeyCloak
             provider: keycloak
             authorization-grant-type: authorization_code

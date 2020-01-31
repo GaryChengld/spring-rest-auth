@@ -1,7 +1,7 @@
 {
   "id": "myKeyCloak",
   "realm": "myKeyCloak",
-  "notBefore": 0,
+  "notBefore": 1580263596,
   "revokeRefreshToken": false,
   "refreshTokenMaxReuse": 0,
   "accessTokenLifespan": 3600,
@@ -338,7 +338,31 @@
       ]
     }
   },
-  "groups": [],
+  "groups": [
+    {
+      "id": "feae957c-85b6-4cc6-b5a2-c8188b42abeb",
+      "name": "admin",
+      "path": "/admin",
+      "attributes": {},
+      "realmRoles": [
+        "ROLE_ADMIN",
+        "ROLE_USER"
+      ],
+      "clientRoles": {},
+      "subGroups": []
+    },
+    {
+      "id": "4412e11a-22d9-4ed5-b4fa-40a437c978b7",
+      "name": "public",
+      "path": "/public",
+      "attributes": {},
+      "realmRoles": [
+        "ROLE_USER"
+      ],
+      "clientRoles": {},
+      "subGroups": []
+    }
+  ],
   "defaultRoles": [
     "offline_access",
     "uma_authorization"
@@ -601,6 +625,7 @@
     {
       "id": "e9153aae-0140-4f22-8ad9-6a7f210ce3c0",
       "clientId": "oauth-client",
+      "name": "oauth-client",
       "surrogateAuthRequired": false,
       "enabled": true,
       "clientAuthenticatorType": "client-secret",
@@ -613,7 +638,7 @@
       "bearerOnly": false,
       "consentRequired": false,
       "standardFlowEnabled": true,
-      "implicitFlowEnabled": false,
+      "implicitFlowEnabled": true,
       "directAccessGrantsEnabled": true,
       "serviceAccountsEnabled": false,
       "publicClient": false,
@@ -624,6 +649,7 @@
         "saml.force.post.binding": "false",
         "saml.multivalued.roles": "false",
         "saml.encrypt": "false",
+        "login_theme": "keycloak",
         "saml.server.signature": "false",
         "saml.server.signature.keyinfo.ext": "false",
         "exclude.session.state.from.auth.response": "false",
@@ -663,7 +689,7 @@
             "user.attribute": "username",
             "id.token.claim": "true",
             "access.token.claim": "true",
-            "claim.name": "preferred_username",
+            "claim.name": "user_name",
             "jsonType.label": "String"
           }
         }
@@ -1123,11 +1149,11 @@
           "protocolMapper": "oidc-usermodel-client-role-mapper",
           "consentRequired": false,
           "config": {
-            "multivalued": "true",
             "user.attribute": "foo",
             "access.token.claim": "true",
             "claim.name": "resource_access.${client_id}.roles",
-            "jsonType.label": "String"
+            "jsonType.label": "String",
+            "multivalued": "true"
           }
         },
         {
@@ -1137,11 +1163,11 @@
           "protocolMapper": "oidc-usermodel-realm-role-mapper",
           "consentRequired": false,
           "config": {
-            "multivalued": "true",
             "user.attribute": "foo",
             "access.token.claim": "true",
             "claim.name": "realm_access.roles",
-            "jsonType.label": "String"
+            "jsonType.label": "String",
+            "multivalued": "true"
           }
         }
       ]
