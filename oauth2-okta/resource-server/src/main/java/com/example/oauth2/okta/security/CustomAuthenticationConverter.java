@@ -8,6 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -35,8 +36,12 @@ public class CustomAuthenticationConverter implements Converter<Jwt, AbstractAut
     private Collection<GrantedAuthority> extractAuthorities(Jwt jwt) {
         Collection<String> groups = (Collection<String>) jwt.getClaims().get(GROUPS_CLAIM_NAME);
         log.debug("extractAuthorities {}", groups);
-        return groups.stream()
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        if (null != groups) {
+            return groups.stream()
+                    .map(SimpleGrantedAuthority::new)
+                    .collect(Collectors.toList());
+        } else {
+            return new ArrayList<>();
+        }
     }
 }
