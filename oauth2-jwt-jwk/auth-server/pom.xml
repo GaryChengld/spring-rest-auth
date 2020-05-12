@@ -15,7 +15,7 @@
 
   <properties>
     <java.version>1.8</java.version>
-    <nimbus-jose-jwt.version>7.8</nimbus-jose-jwt.version>
+    <nimbus-jose-jwt.version>7.9</nimbus-jose-jwt.version>
     <oauth2-autoconfig.version>2.2.7.RELEASE</oauth2-autoconfig.version>
     <spring-cloud.version>Hoxton.SR4</spring-cloud.version>
   </properties>
