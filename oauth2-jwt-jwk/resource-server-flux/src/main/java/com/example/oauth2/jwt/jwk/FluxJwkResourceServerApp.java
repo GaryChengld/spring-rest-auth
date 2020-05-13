@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class FluxJwkResourceServerApp {
 
-	public static void main(String[] args) {
-		SpringApplication.run(FluxJwkResourceServerApp.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(FluxJwkResourceServerApp.class, args);
+    }
 
 }

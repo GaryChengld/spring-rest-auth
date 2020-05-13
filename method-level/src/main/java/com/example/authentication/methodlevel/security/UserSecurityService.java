@@ -1,6 +1,5 @@
 package com.example.authentication.methodlevel.security;
 
-import com.example.authentication.methodlevel.security.UserPrincipal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

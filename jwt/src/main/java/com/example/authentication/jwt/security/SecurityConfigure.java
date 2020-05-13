@@ -80,7 +80,7 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-  }
+    }
 
     private JwtFilterConfigurer jwtSecurityConfigurerAdapter() {
         return new JwtFilterConfigurer(jwtTokenProvider, restAuthenticationEntryPoint);

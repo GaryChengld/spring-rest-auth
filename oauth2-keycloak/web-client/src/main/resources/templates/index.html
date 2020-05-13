@@ -6,17 +6,17 @@
     <title>Home</title>
 </head>
 <p>
-    <h1>Spring Security Authentication with Keycloak</h1>
+<h1>Spring Security Authentication with Keycloak</h1>
 </p>
 <p>
-    <div sec:authorize="isAuthenticated()">
+<div sec:authorize="isAuthenticated()">
     Hello <span sec:authentication="name">someone</span>
-        <br>
-        <form method="post" action="/logout">
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-            <button id="logout-button" type="submit">Logout</button>
-        </form>
-    </div>
+    <br>
+    <form method="post" action="/logout">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <button id="logout-button" type="submit">Logout</button>
+    </form>
+</div>
 </p>
 <a href="securedPage">Secured area</a><br>
 </html>

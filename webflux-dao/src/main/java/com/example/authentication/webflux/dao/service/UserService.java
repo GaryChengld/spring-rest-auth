@@ -1,8 +1,8 @@
 package com.example.authentication.webflux.dao.service;
 
-import com.example.authentication.webflux.dao.security.UserPrincipal;
 import com.example.authentication.webflux.dao.domain.User;
 import com.example.authentication.webflux.dao.repostory.UserRepository;
+import com.example.authentication.webflux.dao.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;

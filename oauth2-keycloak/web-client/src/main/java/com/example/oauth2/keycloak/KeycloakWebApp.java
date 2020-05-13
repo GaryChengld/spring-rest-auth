@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class KeycloakWebApp {
 
-	public static void main(String[] args) {
-		SpringApplication.run(KeycloakWebApp.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(KeycloakWebApp.class, args);
+    }
 
 }

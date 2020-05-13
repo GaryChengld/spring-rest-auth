@@ -1,8 +1,8 @@
 package com.example.authentication.methodlevel.service;
 
-import com.example.authentication.methodlevel.security.UserPrincipal;
 import com.example.authentication.methodlevel.domain.User;
 import com.example.authentication.methodlevel.repostory.UserRepository;
+import com.example.authentication.methodlevel.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

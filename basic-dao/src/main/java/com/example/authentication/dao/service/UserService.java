@@ -1,7 +1,7 @@
 package com.example.authentication.dao.service;
 
-import com.example.authentication.dao.domain.User;
 import com.example.authentication.dao.UserPrincipal;
+import com.example.authentication.dao.domain.User;
 import com.example.authentication.dao.repostory.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
