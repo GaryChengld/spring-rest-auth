@@ -9,6 +9,7 @@
 
   <modules>
     <module>resource-server</module>
+    <module>resource-server-autoconfig</module>
     <module>web-client</module>
   </modules>
 </project>

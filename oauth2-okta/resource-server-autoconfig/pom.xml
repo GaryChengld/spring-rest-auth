@@ -9,9 +9,9 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>com.example.oauth2</groupId>
-  <artifactId>okta-resource-server</artifactId>
+  <artifactId>okta-resource-server-autoconfig</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>okta-resource-server</name>
+  <name>okta-resource-server-autoconfig</name>
 
   <properties>
     <java.version>1.8</java.version>
@@ -23,12 +23,9 @@
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-security</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+      <groupId>org.springframework.security.oauth.boot</groupId>
+      <artifactId>spring-security-oauth2-autoconfigure</artifactId>
+      <version>2.2.7.RELEASE</version>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>

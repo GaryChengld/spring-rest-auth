@@ -5,7 +5,7 @@ security:
   oauth2:
     resource:
       jwk:
-        key-set-uri: http://localhost:8081/auth/.well-known/jwks.json
+        key-set-uri: https://dev-753636.okta.com/oauth2/default/v1/keys
 
 logging:
   level:
