@@ -6,13 +6,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Request;
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Gary Cheng
@@ -33,20 +36,35 @@ public class OktaAccessTokenConverter extends DefaultAccessTokenConverter {
         log.debug("Begin extractAuthentication: tokenMap = {}", tokenMap);
         JsonNode token = mapper.convertValue(tokenMap, JsonNode.class);
         List<GrantedAuthority> authorities = extractRoles(token); // extracting client roles
-
+        String username = this.extractName(token);
+        log.debug("username:{}", username);
         OAuth2Authentication authentication = super.extractAuthentication(tokenMap);
         OAuth2Request oAuth2Request = authentication.getOAuth2Request();
 
         OAuth2Request request =
-                new OAuth2Request(oAuth2Request.getRequestParameters(), oAuth2Request.getClientId(), authorities, true, oAuth2Request.getScope(),
+                new OAuth2Request(oAuth2Request.getRequestParameters(), username, authorities, true, oAuth2Request.getScope(),
                         null, null, null, null);
-        Authentication usernamePasswordAuthentication = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), "N/A", authorities);
+
+        Authentication usernamePasswordAuthentication = new UsernamePasswordAuthenticationToken(username, "N/A", authorities);
         log.debug("End extractAuthentication");
         return new OAuth2Authentication(request, usernamePasswordAuthentication);
     }
 
-    private List<GrantedAuthority> extractRoles(JsonNode token) {
+    private String extractName(JsonNode jwtToken) {
+        String name = jwtToken.path(USERNAME_CLAIM_NAME).asText();
+        log.debug("extractName {}", name);
+        return name;
     }
 
+    private List<GrantedAuthority> extractRoles(JsonNode jwtToken) {
+        log.debug("Begin extractRoles: jwt = {}", jwtToken);
+        Set<String> roles = new HashSet<>();
+        jwtToken.path(GROUPS_CLAIM_NAME)
+                .elements()
+                .forEachRemaining(r -> roles.add(r.asText()));
 
+        final List<GrantedAuthority> authorityList = AuthorityUtils.createAuthorityList(roles.toArray(new String[0]));
+        log.debug("End extractRoles: roles = {}", authorityList);
+        return authorityList;
+    }
 }
