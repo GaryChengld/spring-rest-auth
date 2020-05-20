@@ -1,0 +1,18 @@
+server:
+  port: 8080
+
+security:
+  oauth2:
+    resource:
+      jwk:
+        key-set-uri: https://dev-753636.okta.com/oauth2/default/v1/keys
+
+graphql:
+  servlet:
+    mapping: /graphql
+
+logging:
+  level:
+    org.springframework: WARN
+    io.netty: WARN
+    com.example: DEBUG

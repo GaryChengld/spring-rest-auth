@@ -1,0 +1,14 @@
+schema {
+    query: Query
+}
+
+type Query {
+    publicApi: ApiResponse
+    userApi: ApiResponse
+    adminApi: ApiResponse
+}
+
+type ApiResponse {
+    status: Int
+    message: String
+}
