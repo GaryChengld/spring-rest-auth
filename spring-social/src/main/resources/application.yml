@@ -1,0 +1,14 @@
+server:
+  port: 8080
+
+security:
+  oauth2:
+    client:
+      registration:
+        google:
+          clientId: 703984239342-kji5e3oil5jrbgrr6jsesiteh8gfsvl5.apps.googleusercontent.com
+          clientSecret: XcGA-YVw8Tx6n2xD3nN7op_1
+          redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+          scope:
+            - email
+            - profile
