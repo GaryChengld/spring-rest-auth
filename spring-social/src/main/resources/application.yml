@@ -1,17 +1,14 @@
 server:
   port: 8080
 
-security:
-  oauth2:
-    client:
-      registration:
-        google:
-          clientId: 703984239342-kji5e3oil5jrbgrr6jsesiteh8gfsvl5.apps.googleusercontent.com
-          clientSecret: XcGA-YVw8Tx6n2xD3nN7op_1
-          redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
-          scope:
-            - email
-            - profile
-    resource:
-      userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
-      preferTokenInfo: true
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 703984239342-bf0e1psffdstp0fd8h5i26mi8tf47a56.apps.googleusercontent.com
+            client-secret: CGZy3ch31X2lDrc0ih-P7iot
+      resourceserver:
+        userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
+        preferTokenInfo: true
