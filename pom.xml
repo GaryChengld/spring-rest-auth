@@ -22,6 +22,6 @@
     <module>webflux-dao</module>
     <module>webflux-method-level</module>
     <module>webflux-jwt</module>
-    <module>spring-social</module>
+    <module>oauth2-social</module>
   </modules>
 </project>
