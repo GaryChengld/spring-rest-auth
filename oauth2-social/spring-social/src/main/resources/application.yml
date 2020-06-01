@@ -10,5 +10,5 @@ spring:
             client-id: 703984239342-bf0e1psffdstp0fd8h5i26mi8tf47a56.apps.googleusercontent.com
             client-secret: CGZy3ch31X2lDrc0ih-P7iot
       resourceserver:
-        userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
-        preferTokenInfo: true
+        user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+        prefer-token-info: true
